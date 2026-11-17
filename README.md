@@ -31,3 +31,34 @@ SportSpace — вебзастосунок для онлайн-бронюванн
 ## Статус
 
 Початковий етап розробки.
+
+
+## Локальний запуск
+
+Створити віртуальне середовище:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+Встановити залежності:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+Заповнити базу демонстраційними даними:
+
+```bash
+python -m app.seed
+```
+
+Запустити сервер:
+
+```bash
+python -m uvicorn app.main:app --reload --port 8001
+```
+
+Документація API доступна за адресою:
+http://127.0.0.1:8001/docs
