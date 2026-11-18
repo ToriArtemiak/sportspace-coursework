@@ -1,16 +1,16 @@
 
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from sqlalchemy import text
 
 from app.database import Base, engine
 from app import models
+from app.catalog import router as catalog_router
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Створюємо таблиці, якщо їх ще немає
     Base.metadata.create_all(bind=engine)
     yield
 
@@ -18,9 +18,23 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title="SportSpace API",
     description="Online sports facilities booking system",
-    version="0.2.0",
-    lifespan=lifespan
+    version="0.3.0",
+    lifespan=lifespan,
 )
+
+@app.middleware("http")
+async def add_utf8_charset(request: Request, call_next):
+    response = await call_next(request)
+
+    content_type = response.headers.get("content-type", "")
+
+    if content_type.startswith("application/json"):
+        response.headers["content-type"] = "application/json; charset=utf-8"
+
+    return response
+
+# Підключаємо маршрути каталогу
+app.include_router(catalog_router)
 
 
 @app.get("/")
@@ -33,7 +47,6 @@ def home():
 
 @app.get("/health")
 def health_check():
-    # Перевіряємо підключення до бази даних
     with engine.connect() as connection:
         connection.execute(text("SELECT 1"))
 
