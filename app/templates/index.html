@@ -143,6 +143,53 @@
             </div>
         </div>
     </section>
+
+
+<section class="sessions-section" id="sessions">
+    <div class="container">
+        <div class="section-heading">
+            <div>
+                <p class="section-kicker">ЗНАЙДИ СВОЄ ЗАНЯТТЯ</p>
+                <h2>Доступні тренування</h2>
+            </div>
+            <p>
+                Обирай спортивний напрямок,
+                рівень підготовки та комфортну ціну.
+            </p>
+        </div>
+
+        <div class="catalog-filters">
+            <select id="sportFilter" aria-label="Вид спорту">
+                <option value="">Усі види спорту</option>
+                <option value="Йога">Йога</option>
+                <option value="Фітнес">Фітнес</option>
+                <option value="Плавання">Плавання</option>
+            </select>
+
+            <select id="levelFilter" aria-label="Рівень підготовки">
+                <option value="">Усі рівні</option>
+                <option value="Початковий">Початковий</option>
+                <option value="Середній">Середній</option>
+                <option value="Усі рівні">Для всіх рівнів</option>
+            </select>
+
+            <select id="priceFilter" aria-label="Максимальна ціна">
+                <option value="">Будь-яка ціна</option>
+                <option value="250">До 250 ₴</option>
+                <option value="300">До 300 ₴</option>
+                <option value="350">До 350 ₴</option>
+                <option value="400">До 400 ₴</option>
+            </select>
+        </div>
+
+        <p id="catalogStatus" role="status">
+            Завантаження занять...
+        </p>
+
+        <div class="sessions-grid" id="sessionsList"></div>
+    </div>
+</section>
+
 </main>
 
 <footer class="footer">
@@ -152,5 +199,6 @@
     </div>
 </footer>
 
+<script src="/static/catalog.js"></script>
 </body>
 </html>

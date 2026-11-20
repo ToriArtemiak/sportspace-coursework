@@ -481,3 +481,101 @@ a {
         align-items: flex-start;
     }
 }
+
+
+/* Каталог доступних занять */
+
+.sessions-section {
+    padding: 90px 0;
+    background: #eef1e9;
+}
+
+.catalog-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 30px;
+}
+
+.catalog-filters select {
+    flex: 1 1 200px;
+    padding: 15px 18px;
+    border: 1px solid #ccd5ce;
+    border-radius: 10px;
+    background: white;
+    font-size: 14px;
+    color: var(--text);
+    cursor: pointer;
+}
+
+.catalog-filters select:focus {
+    outline: 2px solid #7a9d44;
+    outline-offset: 2px;
+}
+
+.sessions-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.session-card {
+    background: white;
+    padding: 28px;
+    border: 1px solid #dce5dc;
+    border-radius: 16px;
+}
+
+.session-type {
+    color: #648738;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.session-card h3 {
+    font-size: 25px;
+    margin: 15px 0;
+}
+
+.session-card p {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 9px;
+}
+
+.session-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid #e5eae5;
+    gap: 12px;
+}
+
+.session-footer strong {
+    font-size: 24px;
+}
+
+.session-footer span {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+#catalogStatus {
+    margin-bottom: 15px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+@media (max-width: 700px) {
+    .sessions-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sessions-section {
+        padding: 60px 0;
+    }
+}
