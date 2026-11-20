@@ -105,3 +105,33 @@ class SportsSection(Base):
         CheckConstraint("max_age >= min_age", name="section_age_range_valid"),
         CheckConstraint("price_uah >= 0", name="section_price_nonnegative"),
     )
+
+
+# Користувач системи
+class User(Base):
+    __tablename__ = "users"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+
+    full_name: Mapped[str] = mapped_column(
+        String(120),
+        nullable=False
+    )
+
+    email: Mapped[str] = mapped_column(
+        String(254),
+        unique=True,
+        index=True,
+        nullable=False
+    )
+
+    password_hash: Mapped[str] = mapped_column(
+        String(255),
+        nullable=False
+    )
+
+    role: Mapped[str] = mapped_column(
+        String(20),
+        default="client",
+        nullable=False
+    )

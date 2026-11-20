@@ -12,6 +12,8 @@ from pathlib import Path
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
+from app.auth import router as auth_router
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     Base.metadata.create_all(bind=engine)
@@ -46,6 +48,7 @@ async def add_utf8_charset(request: Request, call_next):
 
 # Підключаємо маршрути каталогу
 app.include_router(catalog_router)
+app.include_router(auth_router)
 
 
 @app.get("/", response_class=FileResponse)

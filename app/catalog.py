@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy import select
 from sqlalchemy.orm import Session, joinedload
 
-from app.database import SessionLocal
+from app.database import get_db
 from app.models import (
     SportsCenter,
     SportsHall,
@@ -23,11 +23,6 @@ router = APIRouter(
     tags=["Sports Catalog"]
 )
 
-
-# Підключення до бази даних для кожного запиту
-def get_db():
-    with SessionLocal() as session:
-        yield session
 
 
 # Список спортивних центрів

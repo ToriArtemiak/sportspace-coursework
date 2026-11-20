@@ -20,3 +20,7 @@ SessionLocal = sessionmaker(
 # Базовий клас для всіх моделей
 class Base(DeclarativeBase):
     pass
+
+def get_db():
+    with SessionLocal() as session:
+        yield session
