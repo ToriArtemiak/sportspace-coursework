@@ -19,7 +19,17 @@
             <a href="/docs">API</a>
         </div>
 
-        <a href="#catalog" class="nav-button">Обрати заняття</a>
+        
+<div class="nav-actions">
+    <a href="#catalog" class="nav-button">
+        Обрати заняття
+    </a>
+
+    <button id="openAuth" class="auth-open" type="button">
+        Увійти
+    </button>
+</div>
+
     </nav>
 </header>
 
@@ -190,7 +200,92 @@
     </div>
 </section>
 
+
+<section class="account-section" id="accountSection" hidden>
+    <div class="container">
+        <div class="account-card">
+            <div>
+                <p class="section-kicker">ОСОБИСТИЙ КАБІНЕТ</p>
+                <h2>Привіт, <span id="accountName"></span>!</h2>
+                <p id="accountEmail"></p>
+                <p id="accountRole"></p>
+            </div>
+
+            <button type="button" id="logoutButton"
+                    class="logout-button">
+                Вийти з акаунта
+            </button>
+        </div>
+    </div>
+</section>
+
 </main>
+
+
+<dialog id="authDialog" class="auth-dialog"
+        aria-labelledby="authTitle">
+
+    <div class="auth-header">
+        <h2 id="authTitle">Вхід у SportSpace</h2>
+
+        <button type="button" id="closeAuth"
+                class="auth-close" aria-label="Закрити">
+            ×
+        </button>
+    </div>
+
+    <p class="auth-description">
+        Твій простір для спорту починається тут.
+    </p>
+
+    <!-- Форма входу -->
+    <form id="loginForm" class="auth-form">
+        <label for="loginEmail">Email</label>
+        <input type="email" id="loginEmail"
+               autocomplete="username"
+               placeholder="name@example.com" required>
+
+        <label for="loginPassword">Пароль</label>
+        <input type="password" id="loginPassword"
+               autocomplete="current-password"
+               placeholder="Введіть пароль" required>
+
+        <button type="submit" class="auth-submit">
+            Увійти
+        </button>
+    </form>
+
+    <!-- Форма реєстрації -->
+    <form id="registerForm" class="auth-form" hidden>
+        <label for="registerName">Повне ім'я</label>
+        <input type="text" id="registerName"
+               minlength="2" maxlength="120"
+               autocomplete="name" required>
+
+        <label for="registerEmail">Email</label>
+        <input type="email" id="registerEmail"
+               autocomplete="email" required>
+
+        <label for="registerPassword">Пароль</label>
+        <input type="password" id="registerPassword"
+               minlength="8" maxlength="128"
+               autocomplete="new-password" required>
+
+        <button type="submit" class="auth-submit">
+            Створити акаунт
+        </button>
+    </form>
+
+    <p id="authStatus" class="auth-status"
+       role="status" aria-live="polite"></p>
+
+    <div class="auth-switch">
+        <span id="authSwitchLabel">Ще немає акаунта?</span>
+        <button type="button" id="switchAuth">
+            Зареєструватися
+        </button>
+    </div>
+</dialog>
 
 <footer class="footer">
     <div class="container footer-inner">
@@ -200,5 +295,6 @@
 </footer>
 
 <script src="/static/catalog.js"></script>
+<script src="/static/auth.js"></script>
 </body>
 </html>
