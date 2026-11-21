@@ -4,6 +4,9 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
 
+from datetime import date, time, datetime, timezone
+from sqlalchemy import Date, Time, DateTime, UniqueConstraint
+
 
 # Спортивний центр
 class SportsCenter(Base):
@@ -99,6 +102,10 @@ class SportsSection(Base):
         back_populates="sections"
     )
 
+    sessions: Mapped[list["TrainingSession"]] = relationship(
+        back_populates="section"
+    )
+
     __table_args__ = (
         CheckConstraint("capacity > 0", name="section_capacity_positive"),
         CheckConstraint("min_age >= 0", name="section_min_age_valid"),
@@ -134,4 +141,108 @@ class User(Base):
         String(20),
         default="client",
         nullable=False
+    )
+
+    bookings: Mapped[list["Booking"]] = relationship(
+        back_populates="user"
+    )
+
+
+# Конкретне тренування в розкладі
+class TrainingSession(Base):
+    __tablename__ = "training_sessions"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+
+    section_id: Mapped[int] = mapped_column(
+        ForeignKey("sports_sections.id"),
+        nullable=False,
+        index=True
+    )
+
+    session_date: Mapped[date] = mapped_column(
+        Date,
+        nullable=False
+    )
+
+    start_time: Mapped[time] = mapped_column(
+        Time,
+        nullable=False
+    )
+
+    end_time: Mapped[time] = mapped_column(
+        Time,
+        nullable=False
+    )
+
+    section: Mapped["SportsSection"] = relationship(
+        back_populates="sessions"
+    )
+
+    bookings: Mapped[list["Booking"]] = relationship(
+        back_populates="training_session"
+    )
+
+    __table_args__ = (
+        CheckConstraint(
+            "end_time > start_time",
+            name="session_valid_time"
+        ),
+        UniqueConstraint(
+            "section_id",
+            "session_date",
+            "start_time",
+            name="unique_section_session"
+        ),
+    )
+
+
+# Бронювання користувача
+class Booking(Base):
+    __tablename__ = "bookings"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+
+    user_id: Mapped[int] = mapped_column(
+        ForeignKey("users.id"),
+        nullable=False
+    )
+
+    training_session_id: Mapped[int] = mapped_column(
+        ForeignKey("training_sessions.id"),
+        nullable=False
+    )
+
+    status: Mapped[str] = mapped_column(
+        String(20),
+        nullable=False,
+        default="confirmed"
+    )
+
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime,
+        default=lambda: datetime.now(
+            timezone.utc
+        ).replace(tzinfo=None),
+        nullable=False
+    )
+
+    user: Mapped["User"] = relationship(
+        back_populates="bookings"
+    )
+
+    training_session: Mapped["TrainingSession"] = relationship(
+        back_populates="bookings"
+    )
+
+    __table_args__ = (
+        UniqueConstraint(
+            "user_id",
+            "training_session_id",
+            name="unique_user_booking"
+        ),
+        CheckConstraint(
+            "status IN ('confirmed', 'cancelled')",
+            name="booking_valid_status"
+        ),
     )
